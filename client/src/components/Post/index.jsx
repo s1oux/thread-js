@@ -12,6 +12,7 @@ const Post = ({
   likePost,
   dislikePost,
   toggleExpandedPost,
+  toggleExpandedEditPost,
   sharePost,
 }) => {
   const {
@@ -27,6 +28,20 @@ const Post = ({
   const date = moment(createdAt).fromNow();
   return (
     <Card style={{ width: "100%" }}>
+      {
+          toggleExpandedEditPost ? 
+          <Card.Content textAlign="right">
+            <Label
+              basic
+              size="small"
+              as="a"
+              className={styles.toolbarBtn}
+              onClick={() => toggleExpandedEditPost(id)}
+            >
+              <Icon name="edit" />
+            </Label>
+          </Card.Content> : null
+        }
       {image && <Image src={image.link} wrapped ui={false} />}
       <Card.Content>
         <Card.Meta>

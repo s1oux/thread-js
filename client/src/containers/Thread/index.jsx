@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
 import * as imageService from "src/services/imageService";
 import ExpandedPost from "src/containers/ExpandedPost";
+import ExpandedEditPost from "src/containers/ExpandedEditPost";
 import Post from "src/components/Post";
 import AddPost from "src/components/AddPost";
 import SharedPostLink from "src/components/SharedPostLink";
@@ -16,9 +18,9 @@ import {
   likePost,
   dislikePost,
   toggleExpandedPost,
+  toggleExpandedEditPost,
   addPost,
 } from "./actions";
-// add dislikePost to imports
 
 import styles from "./styles.module.scss";
 
@@ -35,11 +37,13 @@ const Thread = ({
   loadMorePosts: loadMore,
   posts = [],
   expandedPost,
+  expandedEditPost,
   hasMorePosts,
   addPost: createPost,
   likePost: like,
   dislikePost: dislike,
   toggleExpandedPost: toggle,
+  toggleExpandedEditPost: toggleEdit
 }) => {
   const [sharedPostId, setSharedPostId] = useState(undefined);
   const [showOwnPosts, setShowOwnPosts] = useState(false);
@@ -108,13 +112,14 @@ const Thread = ({
             likePost={like}
             dislikePost={dislike}
             toggleExpandedPost={toggle}
+            toggleExpandedEditPost={userId === post.userId ? toggleEdit : undefined}
             sharePost={sharePost}
             key={post.id}
-            // add dislikePost to props
           />
         ))}
       </InfiniteScroll>
       {expandedPost && <ExpandedPost sharePost={sharePost} />}
+      {expandedEditPost && <ExpandedEditPost uploadImage={uploadImage} />}
       {sharedPostId && (
         <SharedPostLink
           postId={sharedPostId}
@@ -136,6 +141,7 @@ Thread.propTypes = {
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   toggleExpandedPost: PropTypes.func.isRequired,
+  toggleExpandedEditPost: PropTypes.func.isRequired,
   addPost: PropTypes.func.isRequired,
 };
 
@@ -143,6 +149,7 @@ Thread.defaultProps = {
   posts: [],
   hasMorePosts: true,
   expandedPost: undefined,
+  expandedEditPost: undefined,
   userId: undefined,
 };
 
@@ -150,6 +157,7 @@ const mapStateToProps = (rootState) => ({
   posts: rootState.posts.posts,
   hasMorePosts: rootState.posts.hasMorePosts,
   expandedPost: rootState.posts.expandedPost,
+  expandedEditPost: rootState.posts.expandedEditPost,
   userId: rootState.profile.user.id,
 });
 
@@ -160,6 +168,7 @@ const actions = {
   likePost,
   dislikePost,
   toggleExpandedPost,
+  toggleExpandedEditPost,
   addPost,
 };
 // add to actions dislikePost

@@ -16,6 +16,12 @@ router
       return res.send(post);
     })
     .catch(next))
+  .put('/', (req, res, next) => postService.update(req.body)
+    .then(post => {
+      req.io.emit('edit_post', post);
+      return res.send(post);
+    })
+    .catch(next))
   .put('/react', (req, res, next) => postService.setReaction(req.user.id, req.body)
     .then(reaction => {
       if (reaction.post && (reaction.post.userId !== req.user.id)) {

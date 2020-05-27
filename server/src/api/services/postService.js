@@ -10,6 +10,10 @@ export const create = (userId, post) => postRepository.create({
   userId
 });
 
+export const update = async post => postRepository.updateById(
+  post.id, { body: post.body, imageId: post.imageId || null }
+);
+
 export const setReaction = async (userId, { postId, isLike = true }) => {
   // define the callback for future use as a promise
   const updateOrDelete = react => (react.isLike === isLike
