@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Header } from 'semantic-ui-react';
 
 import { toggleExpandedEditPost, editPost } from 'src/containers/Thread/actions';
 import EditPost from 'src/components/EditPost';
@@ -18,12 +18,15 @@ const ExpandedEditPost = ({
     {post
       ? (
         <Modal.Content>
-            <EditPost
-                post={post}
-                editPost={edit}
-                uploadImage={uploadImage}
-                toggleOnComplete={toggle}
-            />
+          <Header as="h3" dividing>
+            Edit Post
+          </Header>
+          <EditPost
+            post={post}
+            editPost={edit}
+            uploadImage={uploadImage}
+            toggleOnComplete={toggle}
+          />
         </Modal.Content>
       )
       : <Spinner />}
