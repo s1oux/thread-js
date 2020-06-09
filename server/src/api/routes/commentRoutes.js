@@ -9,6 +9,9 @@ router
     .catch(next))
   .post('/', (req, res, next) => commentService.create(req.user.id, req.body)
     .then(comment => res.send(comment))
+    .catch(next))
+  .put('/', (req, res, next) => commentService.update(req.body)
+    .then(comment => res.send(comment))
     .catch(next));
 
 export default router;

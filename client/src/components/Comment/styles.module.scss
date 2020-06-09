@@ -2,4 +2,12 @@
   .comment {
     overflow: auto;
   }
+  .toolbarBtn {
+    border: none;
+    color: rgba(0,0,0,0.5);
+    cursor: pointer;
+  }
+  .toolbarBtn:hover {
+    color: rgba(0,0,0,0.8);
+  }
 }

@@ -4,7 +4,8 @@ import {
   ADD_POST,
   EDIT_POST,
   SET_EXPANDED_POST,
-  SET_EXPANDED_EDIT_POST
+  SET_EXPANDED_EDIT_POST,
+  SET_EXPANDED_EDIT_COMMENT
 } from './actionTypes';
 
 export default (state = {}, action) => {
@@ -41,6 +42,11 @@ export default (state = {}, action) => {
       return {
         ...state,
         expandedEditPost: action.post
+      };
+    case SET_EXPANDED_EDIT_COMMENT:
+      return {
+        ...state,
+        expandedEditComment: action.comment
       };
     default:
       return state;

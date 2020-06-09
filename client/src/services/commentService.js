@@ -16,3 +16,12 @@ export const getComment = async id => {
   });
   return response.json();
 };
+
+export const editComment = async request => {
+  const response = await callWebApi({
+    endpoint: '/api/comments',
+    type: 'PUT',
+    request
+  });
+  return response.json();
+}

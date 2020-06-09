@@ -6,7 +6,8 @@ import {
   LOAD_MORE_POSTS,
   SET_ALL_POSTS,
   SET_EXPANDED_POST,
-  SET_EXPANDED_EDIT_POST
+  SET_EXPANDED_EDIT_POST,
+  SET_EXPANDED_EDIT_COMMENT
 } from './actionTypes';
 
 const setPostsAction = posts => ({
@@ -37,6 +38,11 @@ const setExpandedPostAction = post => ({
 const setExpandedEditPostAction = post => ({
   type: SET_EXPANDED_EDIT_POST,
   post
+});
+
+const setExpandedEditCommentAction = comment => ({
+  type: SET_EXPANDED_EDIT_COMMENT,
+  comment
 });
 
 export const loadPosts = filter => async dispatch => {
@@ -87,6 +93,12 @@ export const toggleExpandedPost = postId => async dispatch => {
 export const toggleExpandedEditPost = postId => async dispatch => {
   const post = postId ? await postService.getPost(postId) : undefined;
   dispatch(setExpandedEditPostAction(post));
+}
+
+// for comment editing toggle button ?
+export const toggleExpandedEditComment = commentId => async dispatch => {
+  const comment = commentId ? await commentService.getComment(commentId) : undefined;
+  dispatch(setExpandedEditCommentAction(comment));
 }
 
 export const likePost = postId => async (dispatch, getRootState) => {
@@ -152,3 +164,31 @@ export const addComment = request => async (dispatch, getRootState) => {
     dispatch(setExpandedPostAction(mapComments(expandedPost)));
   }
 };
+
+
+// for comment editing action ?
+export const editComment = comment => async (dispatch, getRootState) => {
+  const { id } = await commentService.editComment(comment);
+  const updatedComment = await commentService.getComment(id);
+  
+  const mapComments = post => {
+    const updatedPostComments = (post.comments || []).filter(comment => comment.id !== updatedComment.id);
+    return {
+      ...post,
+      commentCount: Number(post.commentCount),
+      comments: [updatedComment, ...updatedPostComments] 
+    };
+  };
+
+  const { posts: { posts, expandedPost } } = getRootState();
+  const updated = posts.map(post => (post.id !== updatedComment.postId
+    ? post
+    : mapComments(post)));
+
+  dispatch(setPostsAction(updated));
+
+  if (expandedPost && expandedPost.id === updatedComment.postId) {
+    dispatch(setExpandedPostAction(mapComments(expandedPost)));
+  }
+  
+}

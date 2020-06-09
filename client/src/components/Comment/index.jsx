@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Comment as CommentUI } from 'semantic-ui-react';
+import { Comment as CommentUI, Label, Icon } from 'semantic-ui-react';
 import moment from 'moment';
+
 import { getUserImgLink } from 'src/helpers/imageHelper';
 
 import styles from './styles.module.scss';
-
-const Comment = ({ comment: { body, createdAt, user } }) => (
+ 
+const Comment = ({ toggleExpandedEditComment, comment: { id, body, createdAt, user }}) => (
   <CommentUI className={styles.comment}>
     <CommentUI.Avatar src={getUserImgLink(user.image)} />
     <CommentUI.Content>
@@ -19,6 +20,17 @@ const Comment = ({ comment: { body, createdAt, user } }) => (
       <CommentUI.Text>
         {body}
       </CommentUI.Text>
+      {
+        toggleExpandedEditComment ? (
+          <CommentUI.Action 
+            size="small"
+            className={styles.toolbarBtn}
+            onClick={() => toggleExpandedEditComment(id)} 
+          >
+            <Icon name="edit" /> Edit
+          </CommentUI.Action>
+        ) : null
+      }
     </CommentUI.Content>
   </CommentUI>
 );
