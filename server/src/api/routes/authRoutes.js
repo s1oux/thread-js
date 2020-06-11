@@ -17,6 +17,8 @@ router
     .catch(next))
   .get('/user', jwtMiddleware, (req, res, next) => userService.getUserById(req.user.id)
     .then(data => res.send(data))
+    .catch(next))
+  .put('/user', (req, res, next) => userService.update(req.body)
+    .then(data => res.send(data))
     .catch(next));
-
 export default router;

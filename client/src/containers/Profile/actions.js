@@ -1,5 +1,10 @@
 import * as authService from 'src/services/authService';
-import { SET_USER } from './actionTypes';
+import {
+  SET_USER,
+  SET_EXPANDED_EDIT_IMAGE_PROFILE,
+  SET_EXPANDED_EDIT_USERNAME_PROFILE,
+  EDIT_PROFILE
+} from './actionTypes';
 
 const setToken = token => localStorage.setItem('token', token);
 
@@ -28,3 +33,34 @@ export const loadCurrentUser = () => async (dispatch, getRootState) => {
   const user = await authService.getCurrentUser();
   setUser(user)(dispatch, getRootState);
 };
+
+const setExpandedEditImageProfileAction = user => ({
+  type: SET_EXPANDED_EDIT_IMAGE_PROFILE,
+  user
+});
+
+const setExpandedEditUsernameProfileAction = user => ({
+  type: SET_EXPANDED_EDIT_USERNAME_PROFILE,
+  user
+});
+
+export const toggleExpandedEditImageProfile = user => async dispatch => {
+  const current = user ? await authService.getCurrentUser() : undefined;
+  dispatch(setExpandedEditImageProfileAction(current));
+};
+
+export const toggleExpandedEditUsernameProfile = user => async dispatch => {
+  const current = user ? await authService.getCurrentUser() : undefined;
+  dispatch(setExpandedEditUsernameProfileAction(current));
+};
+
+const editProfileAction = user => ({
+  type: EDIT_PROFILE,
+  user
+});
+
+export const editProfile = user => async dispatch => {
+  const { id } = await authService.updateUser(user);
+  const updatedProfile = await authService.getCurrentUser();
+  dispatch(editProfileAction(updatedProfile));
+}
