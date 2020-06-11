@@ -15,6 +15,7 @@ import {
   loadPosts,
   loadPostsExcept,
   loadMorePosts,
+  getPostLikes,
   likePost,
   dislikePost,
   toggleExpandedPost,
@@ -40,6 +41,7 @@ const Thread = ({
   expandedEditPost,
   hasMorePosts,
   addPost: createPost,
+  getPostLikes,
   likePost: like,
   dislikePost: dislike,
   toggleExpandedPost: toggle,
@@ -109,6 +111,7 @@ const Thread = ({
         {posts.map((post) => (
           <Post
             post={post}
+            getLikes={getPostLikes}
             likePost={like}
             dislikePost={dislike}
             toggleExpandedPost={toggle}
@@ -138,6 +141,7 @@ Thread.propTypes = {
   loadPosts: PropTypes.func.isRequired,
   loadPostsExcept: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
+  getPostLikes: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   toggleExpandedPost: PropTypes.func.isRequired,
@@ -165,6 +169,7 @@ const actions = {
   loadPosts,
   loadPostsExcept,
   loadMorePosts,
+  getPostLikes,
   likePost,
   dislikePost,
   toggleExpandedPost,

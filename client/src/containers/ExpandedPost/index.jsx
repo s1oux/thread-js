@@ -5,7 +5,15 @@ import { connect } from 'react-redux';
 import { Modal, Comment as CommentUI, Header } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { likePost, dislikePost, toggleExpandedPost, toggleExpandedEditComment, addComment, editComment } from 'src/containers/Thread/actions';
+import {
+  getPostLikes,
+  likePost,
+  dislikePost,
+  toggleExpandedPost,
+  toggleExpandedEditComment,
+  addComment,
+  editComment
+} from 'src/containers/Thread/actions';
 import ExpandedEditComment from "src/containers/ExpandedEditComment";
 import Post from 'src/components/Post';
 import Comment from 'src/components/Comment';
@@ -16,6 +24,7 @@ const ExpandedPost = ({
   user,
   post,
   sharePost,
+  getPostLikes,
   likePost: like,
   dislikePost: dislike,
   expandedEditComment,
@@ -31,6 +40,7 @@ const ExpandedPost = ({
           <Modal.Content>
             <Post
               post={post}
+              getLikes={getPostLikes}
               likePost={like}
               dislikePost={dislike}
               toggleExpandedPost={toggle}
@@ -62,6 +72,7 @@ ExpandedPost.propTypes = {
   user: PropTypes.objectOf(PropTypes.any).isRequired,
   toggleExpandedPost: PropTypes.func.isRequired,
   toggleExpandedEditComment: PropTypes.func.isRequired,
+  getPostLikes: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
@@ -75,7 +86,15 @@ const mapStateToProps = rootState => ({
   expandedEditComment: rootState.posts.expandedEditComment,
 });
 
-const actions = { likePost, dislikePost, toggleExpandedPost, toggleExpandedEditComment, addComment, editComment };
+const actions = {
+  getPostLikes,
+  likePost,
+  dislikePost,
+  toggleExpandedPost,
+  toggleExpandedEditComment,
+  addComment,
+  editComment
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 

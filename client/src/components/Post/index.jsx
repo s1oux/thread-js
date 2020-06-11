@@ -1,16 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Image, Label, Icon } from "semantic-ui-react";
+import { Card, Image, Label, Popup, Grid, Icon } from "semantic-ui-react";
+import { connect } from 'react-redux';
 import moment from "moment";
+
+import Spinner from 'src/components/Spinner';
+import { getUserImgLink } from 'src/helpers/imageHelper';
 
 import styles from "./styles.module.scss";
 
-// add to deconstruction dislikePost method
-// bind dislikePost to the controls of dislike
 const Post = ({
   post,
+  getLikes,
   likePost,
   dislikePost,
+  postLikes,
   toggleExpandedPost,
   toggleExpandedEditPost,
   sharePost,
@@ -26,6 +30,27 @@ const Post = ({
     createdAt,
   } = post;
   const date = moment(createdAt).fromNow();
+  const likeLabel = (
+    <Label
+      basic
+      size="small"
+      as="a"
+      className={styles.toolbarBtn}
+      onClick={() => likePost(id)}
+    >
+      <Icon name="thumbs up" />
+      {likeCount}
+    </Label>
+  );
+
+  const handleOpen = () => {
+    getLikes(id);
+  };
+
+  const handleClose = () => {
+    getLikes();
+  }
+
   return (
     <Card style={{ width: "100%" }}>
       {
@@ -54,16 +79,35 @@ const Post = ({
         <Card.Description>{body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Label
+        <Popup
+          trigger={likeLabel}
+          inverted
           basic
-          size="small"
-          as="a"
-          className={styles.toolbarBtn}
-          onClick={() => likePost(id)}
+          mouseEnterDelay={500}
+          mouseLeaveDelay={500}
+          on="hover"
+          onOpen={handleOpen}
+          onClose={handleClose}
         >
-          <Icon name="thumbs up" />
-          {likeCount}
-        </Label>
+          {
+            postLikes ? (
+              <Grid centered divided columns={postLikes.length > 5 ? 3 : postLikes.length}>
+                {
+                  postLikes.map((like) => {
+                    return (
+                      <Grid.Column textAlign="center" key={like.id}>    
+                        <Image
+                          src={getUserImgLink(like.user.image)}
+                          avatar
+                        />                      
+                      </Grid.Column>
+                    );
+                  })
+                }
+              </Grid>
+            ) : <Spinner />
+          }
+        </Popup>
         <Label
           basic
           size="small"
@@ -98,12 +142,18 @@ const Post = ({
   );
 };
 
+
+const mapStateToProps = rootState => ({
+  postLikes: rootState.posts.postLikes
+});
+
 Post.propTypes = {
   post: PropTypes.objectOf(PropTypes.any).isRequired,
+  getLikes: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   toggleExpandedPost: PropTypes.func.isRequired,
   sharePost: PropTypes.func.isRequired,
 };
 
-export default Post;
+export default connect(mapStateToProps)(Post);

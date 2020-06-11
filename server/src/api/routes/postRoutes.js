@@ -22,6 +22,9 @@ router
       return res.send(post);
     })
     .catch(next))
+  .get('/react/:id', (req, res, next) => postService.getPostReactions(req.params.id)
+    .then(reactions => res.send(reactions))
+    .catch(next))
   .put('/react', (req, res, next) => postService.setReaction(req.user.id, req.body)
     .then(reaction => {
       if (reaction.post && (reaction.post.userId !== req.user.id)) {

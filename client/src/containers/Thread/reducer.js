@@ -1,5 +1,6 @@
 import {
   SET_ALL_POSTS,
+  SET_DISPLAY_POST_LIKES,
   LOAD_MORE_POSTS,
   ADD_POST,
   EDIT_POST,
@@ -15,6 +16,11 @@ export default (state = {}, action) => {
         ...state,
         posts: action.posts,
         hasMorePosts: Boolean(action.posts.length)
+      };
+    case SET_DISPLAY_POST_LIKES:
+      return {
+        ...state,
+        postLikes: action.postLikes
       };
     case LOAD_MORE_POSTS:
       return {

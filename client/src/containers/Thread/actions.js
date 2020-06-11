@@ -7,7 +7,8 @@ import {
   SET_ALL_POSTS,
   SET_EXPANDED_POST,
   SET_EXPANDED_EDIT_POST,
-  SET_EXPANDED_EDIT_COMMENT
+  SET_EXPANDED_EDIT_COMMENT,
+  SET_DISPLAY_POST_LIKES
 } from './actionTypes';
 
 const setPostsAction = posts => ({
@@ -43,6 +44,11 @@ const setExpandedEditPostAction = post => ({
 const setExpandedEditCommentAction = comment => ({
   type: SET_EXPANDED_EDIT_COMMENT,
   comment
+});
+
+export const setDisplayPostLikesAction = postLikes => ({
+  type: SET_DISPLAY_POST_LIKES,
+  postLikes
 });
 
 export const loadPosts = filter => async dispatch => {
@@ -99,6 +105,12 @@ export const toggleExpandedEditPost = postId => async dispatch => {
 export const toggleExpandedEditComment = commentId => async dispatch => {
   const comment = commentId ? await commentService.getComment(commentId) : undefined;
   dispatch(setExpandedEditCommentAction(comment));
+}
+
+export const getPostLikes = postId => async (dispatch) => {
+  const postReactions = postId ? await postService.getPostLikes(postId) : undefined;
+  const postLikes = postReactions ? postReactions.filter(reaction => reaction.isLike) : undefined;
+  dispatch(setDisplayPostLikesAction(postLikes));
 }
 
 export const likePost = postId => async (dispatch, getRootState) => {
