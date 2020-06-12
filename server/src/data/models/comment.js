@@ -5,7 +5,8 @@ export default (orm, DataTypes) => {
       type: DataTypes.TEXT
     },
     createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    updatedAt: DataTypes.DATE,
+    paranoid: true // for soft deletion
   }, {});
 
   return Comment;

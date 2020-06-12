@@ -72,3 +72,6 @@ export default {
     }
   }
 };
+// Add seeder for commentReactions**
+// ** or seeder needed only for data after migrations?
+

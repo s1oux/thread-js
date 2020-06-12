@@ -15,7 +15,10 @@ export default (orm, DataTypes) => {
       unique: true
     },
     createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    updatedAt: DataTypes.DATE,
+    status: { // status string field for user
+      type: DataTypes.STRING
+    } // resetTokenId should be added in associations as FK..?
   }, {});
 
   return User;

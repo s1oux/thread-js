@@ -26,3 +26,5 @@ export default models => {
   PostReaction.belongsTo(Post);
   PostReaction.belongsTo(User);
 };
+
+// Add CommentReaction association

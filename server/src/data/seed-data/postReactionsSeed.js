@@ -8,3 +8,7 @@ export default new Array(25)
     createdAt: now,
     updatedAt: now
   }));
+
+// Add identical seed for commentReactions**
+// ** or seed-data needed only for data after migrations?
+

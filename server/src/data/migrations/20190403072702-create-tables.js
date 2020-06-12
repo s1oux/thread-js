@@ -24,6 +24,26 @@ export default {
           allowNull: false,
           type: Sequelize.STRING
         },
+        status: { // newly added column
+          type: Sequelize.STRING
+        },
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+      }, { transaction }),
+      queryInterface.createTable('resetTokens', { // newly added full table
+        id: {
+          allowNull: false,
+          autoIncrement: false,
+          primaryKey: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.literal('gen_random_uuid()')
+        },
+        token: {
+          allowNull: false,
+          type: Sequelize.STRING,
+          unique: true
+        },
+        expiresAt: Sequelize.DATE,
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
       }, { transaction }),
@@ -73,6 +93,22 @@ export default {
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
       }, { transaction }),
+      queryInterface.createTable('commentReactions', { // newly added table
+        id: {
+          allowNull: false,
+          autoIncrement: false,
+          primaryKey: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.literal('gen_random_uuid()')
+        },
+        isLike: {
+          allowNull: false,
+          type: Sequelize.BOOLEAN,
+          defaultValue: true
+        },
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+      }, { transaction }),
       queryInterface.createTable('images', {
         id: {
           allowNull: false,
@@ -97,9 +133,13 @@ export default {
   down: queryInterface => queryInterface.sequelize
     .transaction(transaction => Promise.all([
       queryInterface.dropTable('users', { transaction }),
+      queryInterface.dropTable('resetTokens', { transaction }),
       queryInterface.dropTable('posts', { transaction }),
       queryInterface.dropTable('comments', { transaction }),
       queryInterface.dropTable('postReactions', { transaction }),
+      queryInterface.dropTable('commentReactions', { transaction }),
       queryInterface.dropTable('images', { transaction })
     ]))
 };
+
+// add table commentReactions

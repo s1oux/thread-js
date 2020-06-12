@@ -1,5 +1,5 @@
 export default (orm, DataTypes) => {
-  const PostReaction = orm.define('postReaction', {
+  const CommentReaction = orm.define('commentReaction', {
     isLike: {
       allowNull: false,
       type: DataTypes.BOOLEAN,
@@ -8,8 +8,12 @@ export default (orm, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {});
-  return PostReaction;
+  return CommentReaction;
 };
-
-// add identical commentReaction
+/**
+* postId
+* commentId
+* userId
+* links should be added as FK in associations..?
+*/
 

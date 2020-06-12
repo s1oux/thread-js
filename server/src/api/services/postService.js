@@ -5,6 +5,8 @@ export const getPosts = filter => postRepository.getPosts(filter);
 
 export const getPostById = id => postRepository.getPostById(id);
 
+export const deletePostById = id => postRepository.deleteById(id);
+
 export const create = (userId, post) => postRepository.create({
   ...post,
   userId
