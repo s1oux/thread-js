@@ -6,8 +6,11 @@ export default (orm, DataTypes) => {
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
-    paranoid: true // for soft deletion
-  }, {});
+    deletedAt: 'deletedAT'
+  }, {
+    paranoid: true,
+    timestamps: true // for soft deletion
+  });
 
   return Comment;
 };

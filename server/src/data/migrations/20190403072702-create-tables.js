@@ -60,7 +60,8 @@ export default {
           type: Sequelize.TEXT
         },
         createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
+        updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE
       }, { transaction }),
       queryInterface.createTable('comments', {
         id: {
@@ -75,7 +76,8 @@ export default {
           type: Sequelize.TEXT
         },
         createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
+        updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE
       }, { transaction }),
       queryInterface.createTable('postReactions', {
         id: {
