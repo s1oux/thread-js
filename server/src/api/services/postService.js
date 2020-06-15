@@ -36,3 +36,8 @@ export const getPostReactions = async postId => {
   const reactions = await postReactionRepository.getPostReactions(postId);
   return reactions;
 };
+
+export const getLikedByPostReactions = async userId => {
+  const reactions = await postReactionRepository.getLikeByPostReactions(userId);
+  return reactions;
+};

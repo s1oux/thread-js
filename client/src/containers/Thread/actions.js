@@ -76,6 +76,16 @@ export const loadMorePosts = filter => async (dispatch, getRootState) => {
   dispatch(addMorePostsAction(filteredPosts));
 };
 
+export const loadPostsOnly = ({userId}) => async (dispatch) => {
+  const posts = await postService.getAllPosts(undefined);
+  if(userId) {
+    const postsOnlyUser = posts.filter(post => post.userId === userId);
+    dispatch(setPostsAction(postsOnlyUser));
+  } else {
+    dispatch(setPostsAction(posts));
+  }
+}
+
 export const loadPostsExcept = ({userId}) => async (dispatch) => {
   const posts = await postService.getAllPosts(undefined);
   if(userId) {
@@ -84,7 +94,19 @@ export const loadPostsExcept = ({userId}) => async (dispatch) => {
   } else {
     dispatch(setPostsAction(posts));
   }
-}
+};
+
+export const loadPostsLikedBy = ({userId}) => async (dispatch) => {
+  const posts = await postService.getAllPosts(undefined);
+
+  if(userId) {
+    const likedBy = await postService.getLikedByPostReactions(userId);
+    const postsLikedByUser = posts.filter(post => likedBy.some(react => react.postId === post.id));
+    dispatch(setPostsAction(postsLikedByUser));
+  } else {
+    dispatch(setPostsAction(posts));
+  }
+};
 
 export const applyPost = postId => async dispatch => {
   const post = await postService.getPost(postId);

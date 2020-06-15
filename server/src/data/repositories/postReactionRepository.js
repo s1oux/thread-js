@@ -21,6 +21,15 @@ class PostReactionRepository extends BaseRepository {
     });
   }
 
+  getLikeByPostReactions(userId) {
+    return this.model.findAll({
+      group: [
+        'postReaction.id'
+      ],
+      where: { userId, isLike: true }
+    });
+  }
+
   getPostReaction(userId, postId) {
     return this.model.findOne({
       group: [

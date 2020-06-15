@@ -13,7 +13,9 @@ import { Checkbox, Loader } from "semantic-ui-react";
 import InfiniteScroll from "react-infinite-scroller";
 import {
   loadPosts,
+  loadPostsOnly,
   loadPostsExcept,
+  loadPostsLikedBy,
   loadMorePosts,
   getPostLikes,
   likePost,
@@ -35,7 +37,9 @@ const postsFilter = {
 const Thread = ({
   userId,
   loadPosts: load,
+  loadPostsOnly: loadOnly,
   loadPostsExcept: loadExcept,
+  loadPostsLikedBy: loadLikedBy,
   loadMorePosts: loadMore,
   posts = [],
   expandedPost,
@@ -52,12 +56,13 @@ const Thread = ({
   const [sharedPostId, setSharedPostId] = useState(undefined);
   const [showOwnPosts, setShowOwnPosts] = useState(false);
   const [hideOwnPosts, setHideOwnPosts] = useState(false);
+  const [showLikedByPosts, setShowLikedByPosts] = useState(false);
 
   const toggleShowOwnPosts = () => {
     setShowOwnPosts(!showOwnPosts);
     postsFilter.userId = showOwnPosts ? undefined : userId;
     postsFilter.from = 0;
-    load(postsFilter);
+    loadOnly(postsFilter);
     postsFilter.from = postsFilter.count; // for the next scroll
   };
 
@@ -67,7 +72,15 @@ const Thread = ({
     postsFilter.from = 0;
     loadExcept(postsFilter);
     postsFilter.from = postsFilter.count;
-  }
+  };
+
+  const toggleLikedByPosts = () => {
+    setShowLikedByPosts(!showLikedByPosts);
+    postsFilter.userId = showLikedByPosts ? undefined : userId;
+    postsFilter.from = 0;
+    loadLikedBy(postsFilter);
+    postsFilter.from = postsFilter.count;
+  };
 
   const getMorePosts = () => {
     loadMore(postsFilter);
@@ -92,7 +105,7 @@ const Thread = ({
           label="Show only my posts"
           checked={showOwnPosts}
           onChange={toggleShowOwnPosts}
-          disabled={hideOwnPosts}
+          disabled={hideOwnPosts || showLikedByPosts}
         />
       </div>
       <div className={styles.toolbar}>
@@ -101,7 +114,16 @@ const Thread = ({
           label="Hide own posts"
           checked={hideOwnPosts}
           onChange={toggleHideOwnPosts}
-          disabled={showOwnPosts}
+          disabled={showOwnPosts || showLikedByPosts}
+        />
+      </div>
+      <div className={styles.toolbar}>
+        <Checkbox
+          toggle
+          label="Show liked by me"
+          checked={showLikedByPosts}
+          onChange={toggleLikedByPosts}
+          disabled={showOwnPosts || hideOwnPosts}
         />
       </div>
       <InfiniteScroll
@@ -142,7 +164,9 @@ Thread.propTypes = {
   expandedPost: PropTypes.objectOf(PropTypes.any),
   userId: PropTypes.string,
   loadPosts: PropTypes.func.isRequired,
+  loadPostsOnly: PropTypes.func.isRequired,
   loadPostsExcept: PropTypes.func.isRequired,
+  loadPostsLikedBy: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
   getPostLikes: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
@@ -171,7 +195,9 @@ const mapStateToProps = (rootState) => ({
 
 const actions = {
   loadPosts,
+  loadPostsOnly,
   loadPostsExcept,
+  loadPostsLikedBy,
   loadMorePosts,
   getPostLikes,
   likePost,

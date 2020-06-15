@@ -60,7 +60,15 @@ export const getPostLikes = async postId => {
     type: 'GET',
   });
   return response.json();
-}
+};
+
+export const getLikedByPostReactions = async userId => {
+  const response = await callWebApi({
+    endpoint: `/api/posts/react/likedby/${userId}`,
+    type: 'GET'
+  });
+  return response.json();
+};
 
 export const likePost = async postId => {
   const response = await callWebApi({
