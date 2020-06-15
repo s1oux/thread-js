@@ -3,7 +3,9 @@ import {
   SET_USER,
   SET_EXPANDED_EDIT_IMAGE_PROFILE,
   SET_EXPANDED_EDIT_USERNAME_PROFILE,
-  EDIT_PROFILE
+  SET_EXPANDED_EDIT_STATUS_PROFILE,
+  EDIT_PROFILE,
+  TOGGLE_STATUS
 } from './actionTypes';
 
 const setToken = token => localStorage.setItem('token', token);
@@ -44,6 +46,11 @@ const setExpandedEditUsernameProfileAction = user => ({
   user
 });
 
+export const setExpandedEditStatusProfileAction = user => ({
+  type: SET_EXPANDED_EDIT_STATUS_PROFILE,
+  user
+});
+
 export const toggleExpandedEditImageProfile = user => async dispatch => {
   const current = user ? await authService.getCurrentUser() : undefined;
   dispatch(setExpandedEditImageProfileAction(current));
@@ -52,6 +59,11 @@ export const toggleExpandedEditImageProfile = user => async dispatch => {
 export const toggleExpandedEditUsernameProfile = user => async dispatch => {
   const current = user ? await authService.getCurrentUser() : undefined;
   dispatch(setExpandedEditUsernameProfileAction(current));
+};
+
+export const toggleExpandedEditStatusProfile = user => async dispatch => {
+  const current = user ? await authService.getCurrentUser() : undefined;
+  dispatch(setExpandedEditStatusProfileAction(current));
 };
 
 const editProfileAction = user => ({
@@ -64,3 +76,7 @@ export const editProfile = user => async dispatch => {
   const updatedProfile = await authService.getCurrentUser();
   dispatch(editProfileAction(updatedProfile));
 }
+
+export const toggleStatus = () => ({
+  type: TOGGLE_STATUS
+});
