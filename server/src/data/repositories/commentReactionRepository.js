@@ -6,8 +6,6 @@ class CommentReactionRepository extends BaseRepository {
     return this.model.findAll({
       group: [
         'commentReaction.id',
-        'comment.id',
-        'post.id',
         'user.id',
         'user->image.id'
       ],
@@ -27,8 +25,7 @@ class CommentReactionRepository extends BaseRepository {
     return this.model.findOne({
       group: [
         'commentReaction.id',
-        'comment.id',
-        'post.id'
+        'comment.id'
       ],
       where: { userId, commentId },
       include: [{ // check how to add comment inclusion
