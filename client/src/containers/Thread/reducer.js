@@ -1,8 +1,10 @@
 import {
   SET_ALL_POSTS,
   SET_DISPLAY_POST_LIKES,
+  SET_DISPLAY_COMMENT_LIKES,
   LOAD_MORE_POSTS,
   ADD_POST,
+  DELETE_POST,
   EDIT_POST,
   SET_EXPANDED_POST,
   SET_EXPANDED_EDIT_POST,
@@ -22,6 +24,11 @@ export default (state = {}, action) => {
         ...state,
         postLikes: action.postLikes
       };
+    case SET_DISPLAY_COMMENT_LIKES:
+      return {
+        ...state,
+        commentLikes: action.commentLikes
+      };
     case LOAD_MORE_POSTS:
       return {
         ...state,
@@ -32,6 +39,11 @@ export default (state = {}, action) => {
       return {
         ...state,
         posts: [action.post, ...state.posts]
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post.id !== action.post.id)
       };
     case EDIT_POST:
       const postsWithoutEdited = state.posts.filter(post => post.id !== action.post.id);

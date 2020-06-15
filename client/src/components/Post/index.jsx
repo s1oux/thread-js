@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Image, Label, Popup, Grid, Icon } from "semantic-ui-react";
+import { Button, Card, Image, Label, Popup, Grid, Icon } from "semantic-ui-react";
 import { connect } from 'react-redux';
 import moment from "moment";
 
@@ -11,6 +11,7 @@ import styles from "./styles.module.scss";
 
 const Post = ({
   post,
+  deletePost,
   getLikes,
   likePost,
   dislikePost,
@@ -51,30 +52,47 @@ const Post = ({
     getLikes();
   }
 
+  const noMargin = { margin: 0 };
+
   return (
     <Card style={{ width: "100%" }}>
-      {
-        toggleExpandedEditPost ? 
-        <Card.Content textAlign="right">
-          <Label
-            basic
-            size="small"
-            as="a"
-            className={styles.toolbarBtn}
-            onClick={() => toggleExpandedEditPost(id)}
-          >
-            <Icon name="edit" /> Edit
-          </Label>
-        </Card.Content> : null
-      }
       {image && <Image src={image.link} wrapped ui={false} />}
       <Card.Content>
-        <Card.Meta>
+        <Card.Meta className={styles.heading}>
           <span className="date">
             posted by {user.username}
             {" - "}
             {date}
           </span>
+          {
+            toggleExpandedEditPost || deletePost ? 
+            <span>
+              { toggleExpandedEditPost && 
+                <Label
+                  basic
+                  as="a"
+                  floated="right"
+                  size="small"
+                  className={styles.toolbarBtn}
+                  onClick={() => toggleExpandedEditPost(id)}
+                >
+                  <Icon style={noMargin} name="edit" />
+                </Label>
+              }
+              { deletePost && 
+                <Label
+                  basic
+                  as="a"
+                  floated="right"
+                  size="small"
+                  className={styles.deleteBtn}
+                  onClick={() => deletePost(post)}
+                >
+                  <Icon style={noMargin} name="delete" />
+                </Label>
+              }
+            </span> : null
+          }
         </Card.Meta>
         <Card.Description>{body}</Card.Description>
       </Card.Content>
@@ -91,7 +109,11 @@ const Post = ({
         >
           {
             postLikes ? (
-              <Grid centered divided columns={postLikes.length > 5 ? 3 : postLikes.length}>
+              <Grid 
+                centered 
+                divided 
+                columns={postLikes.length > 5 ? 3 : postLikes.length || 1}
+              >
                 {
                   postLikes.map((like) => {
                     return (
@@ -153,7 +175,7 @@ Post.propTypes = {
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   toggleExpandedPost: PropTypes.func.isRequired,
-  sharePost: PropTypes.func.isRequired,
+  sharePost: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(Post);

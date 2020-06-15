@@ -1,3 +1,16 @@
 :global(.ui.basic.label).toolbarBtn {
-  border: none
+  border: none;
+}
+
+:global(.ui.basic.label).deleteBtn {
+  border: none;
+  &:hover {
+    color: red;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

@@ -2,13 +2,15 @@ import * as postService from 'src/services/postService';
 import * as commentService from 'src/services/commentService';
 import {
   ADD_POST,
+  DELETE_POST,
   EDIT_POST,
   LOAD_MORE_POSTS,
   SET_ALL_POSTS,
   SET_EXPANDED_POST,
   SET_EXPANDED_EDIT_POST,
   SET_EXPANDED_EDIT_COMMENT,
-  SET_DISPLAY_POST_LIKES
+  SET_DISPLAY_POST_LIKES,
+  SET_DISPLAY_COMMENT_LIKES
 } from './actionTypes';
 
 const setPostsAction = posts => ({
@@ -23,6 +25,11 @@ const addMorePostsAction = posts => ({
 
 const addPostAction = post => ({
   type: ADD_POST,
+  post
+});
+
+const deletePostAction = post => ({
+  type: DELETE_POST,
   post
 });
 
@@ -49,6 +56,11 @@ const setExpandedEditCommentAction = comment => ({
 export const setDisplayPostLikesAction = postLikes => ({
   type: SET_DISPLAY_POST_LIKES,
   postLikes
+});
+
+export const setDisplayCommentLikesAction = commentLikes => ({
+  type: SET_DISPLAY_COMMENT_LIKES,
+  commentLikes
 });
 
 export const loadPosts = filter => async dispatch => {
@@ -84,6 +96,11 @@ export const addPost = post => async dispatch => {
   const newPost = await postService.getPost(id);
   dispatch(addPostAction(newPost));
 };
+
+export const deletePost = post => async dispatch => {
+  const deletedPost = await postService.deletePost(post);
+  dispatch(deletePostAction(deletedPost));
+}
 
 export const editPost = post => async dispatch => {
   const { id } = await postService.editPost(post);
@@ -155,6 +172,54 @@ export const dislikePost = (postId) => async (dispatch, getRootState) => {
   }
 };
 
+export const getCommentLikes = commentId => async (dispatch) => {
+  const commentReactions = commentId ? await commentService.getCommentLikes(commentId) : undefined;
+  const commentLikes = commentReactions ? commentReactions.filter(reaction => reaction.isLike) : undefined;
+  dispatch(setDisplayCommentLikesAction(commentLikes));
+}
+
+export const likeComment = (commentId) => async (dispatch, getRootState) => {
+  const { id } = await commentService.likeComment(commentId);
+  const diff = id ? 1 : -1;
+
+  const mapCommentLikes = comment => ({
+    ...comment,
+    likeCount: Number(comment.likeCount) + diff
+  });
+
+  const mapLikes = post => ({
+    ...post,
+    comments: post.comments.map(comment => (
+      comment.id !== commentId ? comment : mapCommentLikes(comment)
+    ))
+  });
+
+  const { posts: { posts, expandedPost } } = getRootState();
+  
+  dispatch(setExpandedPostAction(mapLikes(expandedPost)));
+};
+
+export const dislikeComment = (commentId) => async (dispatch, getRootState) => {
+  const { id } = await commentService.dislikeComment(commentId);
+  const diff = id ? 1 : -1;
+
+  const mapCommentDislikes = comment => ({
+    ...comment,
+    dislikeCount: Number(comment.dislikeCount) + diff
+  });
+
+  const mapDislikes = post => ({
+    ...post,
+    comments: post.comments.map(comment => (
+      comment.id !== commentId ? comment : mapCommentDislikes(comment)
+    ))
+  });
+
+  const { posts: { posts, expandedPost } } = getRootState();
+  
+  dispatch(setExpandedPostAction(mapDislikes(expandedPost)));
+};
+
 export const addComment = request => async (dispatch, getRootState) => {
   const { id } = await commentService.addComment(request);
   const comment = await commentService.getComment(id);
@@ -177,6 +242,27 @@ export const addComment = request => async (dispatch, getRootState) => {
   }
 };
 
+export const deleteComment = comment => async (dispatch, getRootState) => {
+  const deletedComment = await commentService.deleteComment(comment);
+
+  const mapComments = post => ({
+    ...post,
+    commentCount: Number(post.commentCount) - 1,
+    comments: (post.comments || []).filter(comment => comment.id != deletedComment.id)
+  });
+
+  const { posts: { posts, expandedPost } } = getRootState();
+
+  const updated = posts.map(post => (post.id !== comment.postId
+    ? post
+    : mapComments(post)));
+
+  dispatch(setPostsAction(updated));
+
+  if (expandedPost && expandedPost.id === comment.postId) {
+    dispatch(setExpandedPostAction(mapComments(expandedPost)));
+  }
+}
 
 // for comment editing action ?
 export const editComment = comment => async (dispatch, getRootState) => {

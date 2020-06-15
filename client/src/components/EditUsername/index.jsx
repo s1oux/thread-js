@@ -8,7 +8,7 @@ const EditUsername = ({
   toggleOnComplete
 }) => {
   
-  const [username, setUsername] = useState(user.username || undefined);
+  const [username, setUsername] = useState(user.username || '');
   const [isUsernameValid, setUsernameValid] = useState(true);
 
   const handleEditUsername = async () => {
@@ -22,7 +22,7 @@ const EditUsername = ({
     }
     await editUsername(updatedUser);
     
-    setUsername(undefined);
+    setUsername('');
     toggleOnComplete();
   };
 
@@ -33,25 +33,24 @@ const EditUsername = ({
   
   return (
     <Form onSubmit={handleEditUsername}>
-        <Segment>
-            <Form.Group widths="equal">
-                <Form.Input
-                    icon="user"
-                    iconPosition="left"
-                    placeholder="Username"
-                    type="text"
-                    error={!isUsernameValid}
-                    value={username}
-                    onChange={ev => usernameChanged(ev.target.value)}
-                    onBlur={() => setUsernameValid(Boolean(username))}
-                />
-                
-                <Button fluid labelPosition="left" as="button" icon type="submit">
-                    <Icon name="edit" />
-                    Update
-                </Button>
-            </Form.Group>
-        </Segment>    
+      <Segment>
+        <Form.Group widths="equal">
+          <Form.Input
+            icon="user"
+            iconPosition="left"
+            placeholder="Username"
+            type="text"
+            error={!isUsernameValid}
+            value={username}
+            onChange={ev => usernameChanged(ev.target.value)}
+            onBlur={() => setUsernameValid(Boolean(username))}
+          />
+          <Button fluid labelPosition="left" as="button" icon type="submit">
+            <Icon name="edit" />
+            Update
+          </Button>
+        </Form.Group>
+      </Segment>    
     </Form>
   );
 };

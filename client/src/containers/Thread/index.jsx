@@ -21,6 +21,7 @@ import {
   toggleExpandedPost,
   toggleExpandedEditPost,
   addPost,
+  deletePost
 } from "./actions";
 
 import styles from "./styles.module.scss";
@@ -41,6 +42,7 @@ const Thread = ({
   expandedEditPost,
   hasMorePosts,
   addPost: createPost,
+  deletePost,
   getPostLikes,
   likePost: like,
   dislikePost: dislike,
@@ -116,6 +118,7 @@ const Thread = ({
             dislikePost={dislike}
             toggleExpandedPost={toggle}
             toggleExpandedEditPost={userId === post.userId ? toggleEdit : undefined}
+            deletePost={userId === post.userId ? deletePost : undefined}
             sharePost={sharePost}
             key={post.id}
           />
@@ -147,6 +150,7 @@ Thread.propTypes = {
   toggleExpandedPost: PropTypes.func.isRequired,
   toggleExpandedEditPost: PropTypes.func.isRequired,
   addPost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired
 };
 
 Thread.defaultProps = {
@@ -175,6 +179,7 @@ const actions = {
   toggleExpandedPost,
   toggleExpandedEditPost,
   addPost,
+  deletePost
 };
 // add to actions dislikePost
 

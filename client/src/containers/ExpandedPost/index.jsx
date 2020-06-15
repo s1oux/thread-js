@@ -7,12 +7,15 @@ import moment from 'moment';
 
 import {
   getPostLikes,
+  getCommentLikes,
   likePost,
   dislikePost,
+  likeComment,
+  dislikeComment,
   toggleExpandedPost,
   toggleExpandedEditComment,
   addComment,
-  editComment
+  deleteComment
 } from 'src/containers/Thread/actions';
 import ExpandedEditComment from "src/containers/ExpandedEditComment";
 import Post from 'src/components/Post';
@@ -25,13 +28,16 @@ const ExpandedPost = ({
   post,
   sharePost,
   getPostLikes,
+  getCommentLikes,
   likePost: like,
   dislikePost: dislike,
+  likeComment,
+  dislikeComment,
   expandedEditComment,
   toggleExpandedPost: toggle,
   toggleExpandedEditComment,
   addComment: add,
-  editComment: edit
+  deleteComment
 }) => {
   return (
     <Modal dimmer="blurring" open onClose={() => toggle()}>
@@ -52,7 +58,22 @@ const ExpandedPost = ({
               </Header>
               {post.comments && post.comments
                 .sort((c1, c2) => moment(c1.createdAt).diff(c2.createdAt))
-                .map(comment => <Comment key={comment.id} comment={comment} toggleExpandedEditComment={user.id === comment.userId ? toggleExpandedEditComment : undefined} />)}
+                .map(comment => (
+                  <Comment 
+                    key={comment.id} 
+                    comment={comment}
+                    getLikes={getCommentLikes}
+                    likeComment={likeComment}
+                    dislikeComment={dislikeComment}
+                    deleteComment={
+                      user.id === comment.userId ? deleteComment : undefined
+                    }
+                    toggleExpandedEditComment={
+                      user.id === comment.userId ? toggleExpandedEditComment : undefined
+                    } 
+                  />
+                  ))
+                }
               <AddComment postId={post.id} addComment={add} />
             </CommentUI.Group>
           </Modal.Content>
@@ -73,27 +94,33 @@ ExpandedPost.propTypes = {
   toggleExpandedPost: PropTypes.func.isRequired,
   toggleExpandedEditComment: PropTypes.func.isRequired,
   getPostLikes: PropTypes.func.isRequired,
+  getCommentLikes: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
+  likeComment: PropTypes.func.isRequired,
+  dislikeComment: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
-  editComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   sharePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = rootState => ({
   post: rootState.posts.expandedPost,
   user: rootState.profile.user,
-  expandedEditComment: rootState.posts.expandedEditComment,
+  expandedEditComment: rootState.posts.expandedEditComment
 });
 
 const actions = {
   getPostLikes,
+  getCommentLikes,
   likePost,
   dislikePost,
+  likeComment,
+  dislikeComment,
   toggleExpandedPost,
   toggleExpandedEditComment,
   addComment,
-  editComment
+  deleteComment
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
