@@ -8,10 +8,16 @@ router
     .then(posts => res.send(posts))
     .catch(next))
   .get('/:id', (req, res, next) => postService.getPostById(req.params.id)
-    .then(post => res.send(post))
+    .then(post => {
+      res.send(post);
+    })
     .catch(next))
-  .delete('/:id', (req, res, next) => postService.deletePostById(req.params.id)
-    .then(post => res.send(post))
+  .delete('/', (req, res, next) => postService.deletePostById(req.body.id)
+    .then(result => {
+      if (result) {
+        res.send(req.body);
+      }
+    })
     .catch(next))
   .post('/', (req, res, next) => postService.create(req.user.id, req.body)
     .then(post => {

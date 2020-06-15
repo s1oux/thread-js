@@ -7,8 +7,12 @@ router
   .get('/:id', (req, res, next) => commentService.getCommentById(req.params.id)
     .then(comment => res.send(comment))
     .catch(next))
-  .delete('/:id', (req, res, next) => commentService.deleteCommentById(req.params.id)
-    .then(comment => res.send(comment))
+  .delete('/', (req, res, next) => commentService.deleteCommentById(req.body.id)
+    .then(result => {
+      if (result) {
+        res.send(req.body);
+      }
+    })
     .catch(next))
   .post('/', (req, res, next) => commentService.create(req.user.id, req.body)
     .then(comment => res.send(comment))

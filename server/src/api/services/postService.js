@@ -3,7 +3,7 @@ import postReactionRepository from '../../data/repositories/postReactionReposito
 
 export const getPosts = filter => postRepository.getPosts(filter);
 
-export const getPostById = id => postRepository.getPostById(id);
+export const getPostById = async id => postRepository.getPostById(id);
 
 export const deletePostById = id => postRepository.deleteById(id);
 
