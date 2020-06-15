@@ -18,6 +18,15 @@ export const addPost = async request => {
   return response.json();
 };
 
+export const deletePost = async request => {
+  const response = await callWebApi({
+    endpoint: '/api/posts',
+    type: 'DELETE',
+    request
+  });
+  return response.json();
+}
+
 export const editPost = async request => {
   const response = await callWebApi({
     endpoint: '/api/posts',
@@ -32,7 +41,17 @@ export const getPost = async id => {
     endpoint: `/api/posts/${id}`,
     type: 'GET'
   });
-  return response.json();
+  const post = await response.json();
+  
+  const updated = {
+    ...post,
+    comments: post.comments.map(comment => ({
+      ...comment,
+      likeCount: comment.commentReactions.filter(reaction => reaction.isLike).length,
+      dislikeCount: comment.commentReactions.filter(reaction => !reaction.isLike).length
+    }))
+  };
+  return updated;
 };
 
 export const getPostLikes = async postId => {
