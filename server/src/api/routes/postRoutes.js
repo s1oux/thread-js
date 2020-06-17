@@ -1,5 +1,11 @@
 import { Router } from 'express';
+
 import * as postService from '../services/postService';
+import { getUserById } from '../services/userService';
+import {
+  sendSharedLinkEmail,
+  sendLikeNotificationEmail
+} from '../../helpers/mailHelper';
 
 const router = Router();
 
@@ -25,6 +31,9 @@ router
       return res.send(post);
     })
     .catch(next))
+  .post('/sharelink', (req, res, next) => sendSharedLinkEmail(req.body)
+    .then(result => res.send(result))
+    .catch(next))
   .put('/', (req, res, next) => postService.update(req.body)
     .then(post => {
       req.io.emit('edit_post', post);
@@ -41,7 +50,12 @@ router
     .then(reaction => {
       if (reaction.post && (reaction.post.userId !== req.user.id)) {
         // notify a user if someone (not himself) liked his post
-        req.io.to(reaction.post.userId).emit('like', 'Your post was liked!');
+        if (reaction.isLike) {
+          getUserById(reaction.post.userId)
+            .then(user => sendLikeNotificationEmail(user.email))
+            .catch(next);
+          req.io.to(reaction.post.userId).emit('like', 'Your post was liked!');
+        }
       }
       return res.send(reaction);
     })

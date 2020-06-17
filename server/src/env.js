@@ -20,6 +20,10 @@ const env = {
   imgur: {
     imgurId: process.env.IMGUR_ID,
     imgurSecret: process.env.IMGUR_SECRET
+  },
+  email: {
+    address: process.env.EMAIL_ADDRESS,
+    password: process.env.EMAIL_PASSWORD
   }
 };
 

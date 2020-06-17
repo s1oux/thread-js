@@ -1,5 +1,6 @@
 import * as postService from 'src/services/postService';
 import * as commentService from 'src/services/commentService';
+
 import {
   ADD_POST,
   DELETE_POST,
@@ -128,6 +129,11 @@ export const editPost = post => async dispatch => {
   const { id } = await postService.editPost(post);
   const updatedPost = await postService.getPost(id);
   dispatch(editPostAction(updatedPost));
+}
+
+export const sharePost = async (email, link) => {
+  const response = await postService.sharePost({ email, link });
+  // console.log(response);
 }
 
 export const toggleExpandedPost = postId => async dispatch => {

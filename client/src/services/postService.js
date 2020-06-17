@@ -18,6 +18,15 @@ export const addPost = async request => {
   return response.json();
 };
 
+export const sharePost = async request => {
+  const response = await callWebApi({
+    endpoint: 'api/posts/sharelink',
+    type: 'POST',
+    request
+  });
+  return response.json();
+}
+
 export const deletePost = async request => {
   const response = await callWebApi({
     endpoint: '/api/posts',
