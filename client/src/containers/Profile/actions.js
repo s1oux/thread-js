@@ -1,6 +1,8 @@
 import * as authService from 'src/services/authService';
 import {
+  GET_RESOLVE,
   SET_USER,
+  SET_USER_BY_TOKEN,
   SET_EXPANDED_EDIT_IMAGE_PROFILE,
   SET_EXPANDED_EDIT_USERNAME_PROFILE,
   SET_EXPANDED_EDIT_STATUS_PROFILE,
@@ -8,11 +10,25 @@ import {
   TOGGLE_STATUS
 } from './actionTypes';
 
+const getResolve = resolve => ({
+  type: GET_RESOLVE,
+  resolve
+});
+
 const setToken = token => localStorage.setItem('token', token);
 
 const setUser = user => async dispatch => dispatch({
   type: SET_USER,
   user
+});
+
+const setUserByToken = user => ({
+  type: SET_USER_BY_TOKEN,
+  user
+});
+
+export const toggleStatus = () => ({
+  type: TOGGLE_STATUS
 });
 
 const setAuthData = (user = null, token = '') => (dispatch, getRootState) => {
@@ -77,6 +93,17 @@ export const editProfile = user => async dispatch => {
   dispatch(editProfileAction(updatedProfile));
 }
 
-export const toggleStatus = () => ({
-  type: TOGGLE_STATUS
-});
+export const sendResetLink = (email, link) => async dispatch => {
+  const resolve = authService.sendResetLink({ email, clientHost: link })
+  dispatch(getResolve(resolve));
+};
+
+export const resetPassword = ( user, password ) => async dispatch => {
+  const resolve = await authService.resetPassword({ user, password });
+  dispatch(getResolve(resolve));
+} 
+
+export const getUserByResetToken = token => async dispatch => {
+  const user = await authService.getUserByResetToken({ token });
+  dispatch(setUserByToken(user));
+};

@@ -1,4 +1,7 @@
 export default [
   '/auth/login',
-  '/auth/register'
+  '/auth/register',
+  '/auth/forgotPassword',
+  '/auth/resetPassword',
+  '/auth/token'
 ];

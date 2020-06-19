@@ -10,15 +10,6 @@ export default {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       }, { transaction }),
-      queryInterface.addColumn('users', 'resetTokenId', {
-        type: Sequelize.UUID,
-        references: {
-          model: 'resetTokens',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      }, { transaction }), // FK for ResetTokens table
       queryInterface.addColumn('posts', 'imageId', {
         type: Sequelize.UUID,
         references: {
@@ -105,7 +96,6 @@ export default {
   down: queryInterface => queryInterface.sequelize
     .transaction(transaction => Promise.all([
       queryInterface.removeColumn('users', 'imageId', { transaction }),
-      queryInterface.removeColumn('users', 'resetTokenId', { transaction }),
       queryInterface.removeColumn('posts', 'imageId', { transaction }),
       queryInterface.removeColumn('posts', 'userId', { transaction }),
       queryInterface.removeColumn('postReactions', 'userId', { transaction }),

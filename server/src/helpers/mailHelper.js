@@ -1,19 +1,6 @@
-import nodemailer from 'nodemailer';
+import { transporter } from '../config/mailConfig';
 
-import env from '../env';
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  service: 'gmail',
-  auth: {
-    user: `${env.email.address}`,
-    pass: `${env.email.password}`
-  }
-});
-
-export const sendResetEmail = (user, host, token) => {
+export const sendResetEmail = (user, host) => {
   const mailOptions = {
     from: 'thread-JS@gmail.com',
     to: `${user.email}`,
@@ -22,8 +9,9 @@ export const sendResetEmail = (user, host, token) => {
       + ' of the password for your account.\nPlease click on the following'
       + ' link, or paste it into browser address field to complete the'
       + ' process within one hour of receiving it:'
-      + `\n${host}/reset/${token}\nIf you did not request this - please`
-      + ' ignore this email and your password will remain unchanged.'
+      + `\n${host}/reset/${encodeURIComponent(user.resetPasswordToken)}\n`
+      + 'If you did not request this - please ignore this email and'
+      + ' your password will remain unchanged.'
   };
 
   return transporter.sendMail(mailOptions);

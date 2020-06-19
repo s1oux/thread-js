@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import Thread from 'src/containers/Thread';
 import LoginPage from 'src/containers/LoginPage';
 import RegistrationPage from 'src/containers/RegistrationPage';
+import ForgotPasswordPage from 'src/containers/ForgotPasswordPage';
+import ResetPasswordPage from 'src/containers/ResetPasswordPage';
 import Profile from 'src/containers/Profile';
 import Header from 'src/components/Header';
 import SharedPost from 'src/containers/SharedPost';
@@ -63,7 +65,21 @@ const Routing = ({
           <main className="fill">
             <Switch>
               <PublicRoute exact path="/login" component={LoginPage} />
-              <PublicRoute exact path="/registration" component={RegistrationPage} />
+              <PublicRoute
+                exact
+                path="/registration"
+                component={RegistrationPage}
+              />
+              <PublicRoute
+                exact
+                path="/forgotPassword"
+                component={ForgotPasswordPage}
+              />
+              <PublicRoute
+                exact
+                path="/reset/:token"
+                component={ResetPasswordPage}
+              />
               <PrivateRoute exact path="/" component={Thread} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <PrivateRoute path="/share/:postHash" component={SharedPost} />

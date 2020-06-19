@@ -24,26 +24,15 @@ export default {
           allowNull: false,
           type: Sequelize.STRING
         },
+        resetPasswordToken: { // newly added column
+          type: Sequelize.STRING
+        },
+        resetPasswordExpiresAt: { // newly added column
+          type: Sequelize.DATE
+        },
         status: { // newly added column
           type: Sequelize.STRING
         },
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
-      }, { transaction }),
-      queryInterface.createTable('resetTokens', { // newly added full table
-        id: {
-          allowNull: false,
-          autoIncrement: false,
-          primaryKey: true,
-          type: Sequelize.UUID,
-          defaultValue: Sequelize.literal('gen_random_uuid()')
-        },
-        token: {
-          allowNull: false,
-          type: Sequelize.STRING,
-          unique: true
-        },
-        expiresAt: Sequelize.DATE,
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
       }, { transaction }),
@@ -135,7 +124,6 @@ export default {
   down: queryInterface => queryInterface.sequelize
     .transaction(transaction => Promise.all([
       queryInterface.dropTable('users', { transaction }),
-      queryInterface.dropTable('resetTokens', { transaction }),
       queryInterface.dropTable('posts', { transaction }),
       queryInterface.dropTable('comments', { transaction }),
       queryInterface.dropTable('postReactions', { transaction }),

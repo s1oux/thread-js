@@ -18,6 +18,33 @@ export const registration = async request => {
   return response.json();
 };
 
+export const sendResetLink = async request => {
+  const response = await callWebApi({
+    endpoint: '/api/auth/forgotPassword',
+    type: 'POST',
+    request
+  });
+  return response.json();
+};
+
+export const resetPassword = async request => {
+  const response = await callWebApi({
+    endpoint: '/api/auth/resetPassword',
+    type: 'POST',
+    request
+  });
+  return response.json();
+};
+
+export const getUserByResetToken = async request => {
+  const response = await callWebApi({
+    endpoint: `/api/auth/token`,
+    type: 'POST',
+    request
+  });
+  return response.json();
+}
+
 export const getCurrentUser = async () => {
   try {
     const response = await callWebApi({
@@ -38,3 +65,4 @@ export const updateUser = async request => {
   });
   return response.json();
 };
+

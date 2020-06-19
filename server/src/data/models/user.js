@@ -16,6 +16,11 @@ export default (orm, DataTypes) => {
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
+    resetPasswordToken: { // reset password token
+      type: DataTypes.STRING,
+      unique: true
+    },
+    resetPasswordExpiresAt: DataTypes.DATE, // reset token expiration time
     status: { // status string field for user
       type: DataTypes.STRING
     } // resetTokenId should be added in associations as FK..?

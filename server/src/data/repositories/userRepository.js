@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import { UserModel, ImageModel } from '../models/index';
 import BaseRepository from './baseRepository';
 
@@ -8,6 +10,15 @@ class UserRepository extends BaseRepository {
 
   getByEmail(email) {
     return this.model.findOne({ where: { email } });
+  }
+
+  getByToken(token) {
+    return this.model.findOne({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpiresAt: { [Op.gt]: Date.now() }
+      }
+    });
   }
 
   getByUsername(username) {

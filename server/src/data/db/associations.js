@@ -1,7 +1,6 @@
 export default models => {
   const {
     User,
-    ResetToken,
     Post,
     PostReaction,
     Comment,
@@ -16,9 +15,6 @@ export default models => {
   User.hasMany(Comment);
   User.hasMany(PostReaction);
   User.belongsTo(Image);
-  User.belongsTo(ResetToken);
-
-  ResetToken.hasOne(User);
 
   Post.belongsTo(Image);
   Post.belongsTo(User);
