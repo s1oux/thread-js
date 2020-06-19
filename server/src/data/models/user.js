@@ -23,7 +23,7 @@ export default (orm, DataTypes) => {
     resetPasswordExpiresAt: DataTypes.DATE, // reset token expiration time
     status: { // status string field for user
       type: DataTypes.STRING
-    } // resetTokenId should be added in associations as FK..?
+    }
   }, {});
 
   return User;

@@ -10,7 +10,7 @@ class CommentReactionRepository extends BaseRepository {
         'user->image.id'
       ],
       where: { commentId },
-      include: [{ // check how to add comment/post inclusion
+      include: [{
         model: UserModel,
         attributes: ['id', 'username'],
         include: {
@@ -28,7 +28,7 @@ class CommentReactionRepository extends BaseRepository {
         'comment.id'
       ],
       where: { userId, commentId },
-      include: [{ // check how to add comment inclusion
+      include: [{
         model: CommentModel,
         attributes: ['id', 'userId']
       }]

@@ -103,5 +103,4 @@ export const dislikePost = async postId => {
   return response.json();
 };
 
-// should be replaced by approppriate function
 export const getPostByHash = async hash => getPost(hash);

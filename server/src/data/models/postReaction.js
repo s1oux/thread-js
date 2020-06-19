@@ -11,5 +11,3 @@ export default (orm, DataTypes) => {
   return PostReaction;
 };
 
-// add identical commentReaction
-

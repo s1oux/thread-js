@@ -28,7 +28,6 @@ export const setReaction = async (userId, { postId, isLike = true }) => {
     ? await updateOrDelete(reaction)
     : await postReactionRepository.create({ userId, postId, isLike });
 
-  // the result is an integer when an entity is deleted
   return Number.isInteger(result) ? {} : postReactionRepository.getPostReaction(userId, postId);
 };
 

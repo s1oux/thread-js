@@ -33,4 +33,3 @@ export default models => {
   CommentReaction.belongsTo(User);
 };
 
-// Add CommentReaction association

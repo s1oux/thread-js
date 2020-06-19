@@ -46,5 +46,4 @@ class PostReactionRepository extends BaseRepository {
 }
 
 export default new PostReactionRepository(PostReactionModel);
-// Add identical commentReaction
 

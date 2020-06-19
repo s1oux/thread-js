@@ -10,10 +10,4 @@ export default (orm, DataTypes) => {
   }, {});
   return CommentReaction;
 };
-/**
-* postId
-* commentId
-* userId
-* links should be added as FK in associations..?
-*/
 

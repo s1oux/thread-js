@@ -108,5 +108,3 @@ export default {
     ]))
 };
 
-// added commentReactions linking for post, user and comment
-// added users linking for resetToken
