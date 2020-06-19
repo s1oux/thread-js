@@ -93,8 +93,12 @@ export const editProfile = user => async dispatch => {
   dispatch(editProfileAction(updatedProfile));
 }
 
+export const resetResolve = () => dispatch => {
+  dispatch(getResolve(undefined));
+};
+
 export const sendResetLink = (email, link) => async dispatch => {
-  const resolve = authService.sendResetLink({ email, clientHost: link })
+  const resolve = await authService.sendResetLink({ email, clientHost: link });
   dispatch(getResolve(resolve));
 };
 

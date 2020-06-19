@@ -5,12 +5,18 @@ import PropTypes from 'prop-types';
 import { Grid, Header, Message } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-import { resetPassword, getUserByResetToken } from 'src/containers/Profile/actions';
+import { resetPassword, getUserByResetToken, resetResolve } from 'src/containers/Profile/actions';
 import Logo from 'src/components/Logo';
 import ResetPasswordForm from 'src/components/ResetPasswordForm';
 
 const ResetPasswordPage = (props) => {
-  const { resetPassword, getUserByResetToken, user, resolve } = props;
+  const {
+    resetPassword,
+    getUserByResetToken,
+    resetResolve,
+    user,
+    resolve
+  } = props;
 
   const fetchUser = () => {
     getUserByResetToken(props.match.params.token);
@@ -42,7 +48,7 @@ const ResetPasswordPage = (props) => {
       <Message>
         Want to log in?
         {' '}
-        <NavLink exact to="/login">Sign In</NavLink>
+        <NavLink onClick={() => resetResolve()} exact to="/login">Sign In</NavLink>
       </Message>
     </div>
     ) : (
@@ -73,9 +79,10 @@ const ResetPasswordPage = (props) => {
 ResetPasswordPage.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   getUserByResetToken: PropTypes.func.isRequired,
+  resetResolve: PropTypes.func.isRequired
 };
 
-const actions = { resetPassword, getUserByResetToken };
+const actions = { resetPassword, getUserByResetToken, resetResolve };
 
 const mapStateToProps = rootState => ({
   user: rootState.profile.userByToken,
