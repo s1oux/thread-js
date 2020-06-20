@@ -10,6 +10,7 @@ import Spinner from 'src/components/Spinner';
 
 const ExpandedEditUsername = ({
   user,
+  error,
   toggleExpandedEditUsernameProfile: toggle,
   editProfile: edit
 }) => (
@@ -24,6 +25,7 @@ const ExpandedEditUsername = ({
             user={user}
             editUsername={edit}
             toggleOnComplete={toggle}
+            error={error}
           />
         </Modal.Content>
       ) : <Spinner />
@@ -38,7 +40,8 @@ ExpandedEditUsername.propTypes = {
 };
 
 const mapStateToProps = rootState => ({
-  user: rootState.profile.expandedEditUsernameProfile
+  user: rootState.profile.expandedEditUsernameProfile,
+  error: rootState.profile.error
 });
 
 const actions = { editProfile, toggleExpandedEditUsernameProfile };

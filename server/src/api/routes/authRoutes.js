@@ -21,7 +21,7 @@ router
     .then(result => res.send(result))
     .catch(next))
   .post('/token', (req, res, next) => userService.getUserByToken(decodeURIComponent(req.body.token))
-    .then(user => res.send(user || { notfound: true }))
+    .then(result => res.send(result))
     .catch(next))
   .post('/resetPassword', (req, res, next) => userService.resetPassword(req.body)
     .then(result => res.json(result))

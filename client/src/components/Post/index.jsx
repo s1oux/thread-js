@@ -101,8 +101,8 @@ const Post = ({
           trigger={likeLabel}
           inverted
           basic
-          mouseEnterDelay={500}
-          mouseLeaveDelay={500}
+          mouseEnterDelay={1000}
+          mouseLeaveDelay={1000}
           on="hover"
           onOpen={handleOpen}
           onClose={handleClose}

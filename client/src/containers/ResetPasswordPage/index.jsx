@@ -40,7 +40,7 @@ const ResetPasswordPage = (props) => {
       </Message>
     </div>
   ) : (
-    resolve ? (
+    resolve?.success ? (
       <div>
       <Header as="h2" color="teal" textAlign="center">
         Password has been changed

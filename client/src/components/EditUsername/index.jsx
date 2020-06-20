@@ -4,6 +4,7 @@ import { Form, Button, Icon, Segment } from 'semantic-ui-react';
 
 const EditUsername = ({
   user,
+  error,
   editUsername,
   toggleOnComplete
 }) => {
@@ -31,6 +32,12 @@ const EditUsername = ({
     setUsernameValid(true);
   };
   
+  const errorContent = !isUsernameValid ? (
+    'Username should not be empty'
+  ) : (
+    error ? 'Username has already been taken' : ''
+  );
+
   return (
     <Form onSubmit={handleEditUsername}>
       <Segment>
@@ -40,7 +47,10 @@ const EditUsername = ({
             iconPosition="left"
             placeholder="Username"
             type="text"
-            error={!isUsernameValid}
+            error={error || ! isUsernameValid ? {
+              content: errorContent,
+              pointing: 'below'
+            } : false}
             value={username}
             onChange={ev => usernameChanged(ev.target.value)}
             onBlur={() => setUsernameValid(Boolean(username))}

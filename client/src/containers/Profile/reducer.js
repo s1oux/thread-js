@@ -1,5 +1,6 @@
 import {
   SET_USER,
+  SET_ERROR,
   SET_USER_BY_TOKEN,
   SET_EXPANDED_EDIT_IMAGE_PROFILE,
   SET_EXPANDED_EDIT_USERNAME_PROFILE,
@@ -31,6 +32,11 @@ export default (
         ...state,
         userByToken: action.user,
         isLoading: false
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     case SET_EXPANDED_EDIT_IMAGE_PROFILE:
       return {

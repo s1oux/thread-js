@@ -2,6 +2,7 @@ import * as authService from 'src/services/authService';
 import {
   GET_RESOLVE,
   SET_USER,
+  SET_ERROR,
   SET_USER_BY_TOKEN,
   SET_EXPANDED_EDIT_IMAGE_PROFILE,
   SET_EXPANDED_EDIT_USERNAME_PROFILE,
@@ -20,6 +21,11 @@ const setToken = token => localStorage.setItem('token', token);
 const setUser = user => async dispatch => dispatch({
   type: SET_USER,
   user
+});
+
+const setError = error => ({
+  type: SET_ERROR,
+  error
 });
 
 const setUserByToken = user => ({
@@ -88,9 +94,16 @@ const editProfileAction = user => ({
 });
 
 export const editProfile = user => async dispatch => {
-  const { id } = await authService.updateUser(user);
-  const updatedProfile = await authService.getCurrentUser();
-  dispatch(editProfileAction(updatedProfile));
+  try {
+    const { id } = await authService.updateUser(user);
+    const updatedProfile = await authService.getCurrentUser();
+    dispatch(editProfileAction(updatedProfile));
+    dispatch(setError(false));
+  } catch(err) {
+    dispatch(toggleExpandedEditUsernameProfile(user));
+    dispatch(setError(true));
+  }
+  
 }
 
 export const resetResolve = () => dispatch => {
@@ -105,7 +118,7 @@ export const sendResetLink = (email, link) => async dispatch => {
 export const resetPassword = ( user, password ) => async dispatch => {
   const resolve = await authService.resetPassword({ user, password });
   dispatch(getResolve(resolve));
-} 
+};
 
 export const getUserByResetToken = token => async dispatch => {
   const user = await authService.getUserByResetToken({ token });

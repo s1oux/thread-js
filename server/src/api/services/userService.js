@@ -14,7 +14,10 @@ export const getUserByEmail = async email => {
 
 export const getUserByToken = async token => {
   const user = await userRepository.getByToken(token);
-  return user;
+  if (user) {
+    return { email: user.email };
+  }
+  return { notfound: true };
 };
 
 export const update = async user => userRepository.updateById(
@@ -32,7 +35,7 @@ export const sendResetTokenByEmail = async (email, clientHost) => {
     };
     const updatedUser = await update(userToUpdate);
     const result = await sendResetEmail(updatedUser, clientHost);
-    return { ...result, notfound: false };
+    return { notfound: Boolean(!result) };
   }
   return { notfound: true };
 };
@@ -47,5 +50,5 @@ export const resetPassword = async ({ user, password }) => {
     resetPasswordExpiresAt: null
   };
   const updatedUser = await update(userToUpdate);
-  return updatedUser;
+  return { success: Boolean(updatedUser) };
 };
