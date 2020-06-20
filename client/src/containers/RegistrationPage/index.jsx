@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { register } from 'src/containers/Profile/actions';
-import Logo from 'src/components/Logo';
 import { Grid, Header, Message } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+
+import Logo from 'src/components/Logo';
+
+import { register } from 'src/containers/Profile/actions';
 import RegistrationForm from 'src/components/RegistrationForm';
 
 const RegistrationPage = ({ register: signOn }) => (
@@ -17,7 +19,7 @@ const RegistrationPage = ({ register: signOn }) => (
       </Header>
       <RegistrationForm register={signOn} />
       <Message>
-        Alredy with us?
+        Already with us?
         {' '}
         <NavLink exact to="/login">Sign In</NavLink>
       </Message>

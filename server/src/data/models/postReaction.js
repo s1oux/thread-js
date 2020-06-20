@@ -8,6 +8,6 @@ export default (orm, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {});
-
   return PostReaction;
 };
+

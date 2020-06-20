@@ -24,6 +24,15 @@ export default {
           allowNull: false,
           type: Sequelize.STRING
         },
+        resetPasswordToken: { // newly added column
+          type: Sequelize.STRING
+        },
+        resetPasswordExpiresAt: { // newly added column
+          type: Sequelize.DATE
+        },
+        status: { // newly added column
+          type: Sequelize.STRING
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
       }, { transaction }),
@@ -40,7 +49,8 @@ export default {
           type: Sequelize.TEXT
         },
         createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
+        updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE
       }, { transaction }),
       queryInterface.createTable('comments', {
         id: {
@@ -55,9 +65,26 @@ export default {
           type: Sequelize.TEXT
         },
         createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
+        updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE
       }, { transaction }),
       queryInterface.createTable('postReactions', {
+        id: {
+          allowNull: false,
+          autoIncrement: false,
+          primaryKey: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.literal('gen_random_uuid()')
+        },
+        isLike: {
+          allowNull: false,
+          type: Sequelize.BOOLEAN,
+          defaultValue: true
+        },
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+      }, { transaction }),
+      queryInterface.createTable('commentReactions', { // newly added table
         id: {
           allowNull: false,
           autoIncrement: false,
@@ -100,6 +127,8 @@ export default {
       queryInterface.dropTable('posts', { transaction }),
       queryInterface.dropTable('comments', { transaction }),
       queryInterface.dropTable('postReactions', { transaction }),
+      queryInterface.dropTable('commentReactions', { transaction }),
       queryInterface.dropTable('images', { transaction })
     ]))
 };
+

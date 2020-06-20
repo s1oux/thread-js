@@ -3,6 +3,10 @@
   padding: 1em 0;
 }
 
+.status {
+  margin-left: 4rem;
+}
+
 .logoutBtn,
 .logoutBtn:hover {
   &:global(.ui.icon.button) {
@@ -16,5 +20,21 @@
   color: gray;
   &:hover {
     color: black !important;
+  }
+}
+
+:global(.ui.mini.tag.label) {
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+}
+
+:global(.ui.mini.tag.label>.icon) {
+  margin: 0;
+}
+
+:global(.ui.mini.tag.label).toggleBtn {
+  background-color: black;
+  &:hover {
+    background-color: rgb(61, 61, 61);
   }
 }

@@ -2,4 +2,29 @@
   .comment {
     overflow: auto;
   }
+  .toolbarBtn {
+    border: none;
+    color: rgba(0,0,0,0.5);
+    cursor: pointer;
+  }
+  .toolbarBtn:hover {
+    color: rgba(0,0,0,0.8);
+  }
+}
+
+:global(.ui.basic.label).toolbarBtn {
+  border: none;
+}
+
+:global(.ui.basic.label).deleteBtn {
+  border: none;
+  &:hover {
+    color: red;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

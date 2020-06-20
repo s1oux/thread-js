@@ -4,6 +4,7 @@ import path from 'path';
 import passport from 'passport';
 import http from 'http';
 import socketIO from 'socket.io';
+
 import routes from './api/routes/index';
 import authorizationMiddleware from './api/middlewares/authorizationMiddleware';
 import errorHandlerMiddleware from './api/middlewares/errorHandlerMiddleware';

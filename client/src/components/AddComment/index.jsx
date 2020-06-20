@@ -23,7 +23,7 @@ const AddComment = ({
         placeholder="Type a comment..."
         onChange={ev => setBody(ev.target.value)}
       />
-      <Button type="submit" content="Post comment" labelPosition="left" icon="edit" primary />
+      <Button type="submit" content="Post comment" labelPosition="left" icon="write" primary />
     </Form>
   );
 };
