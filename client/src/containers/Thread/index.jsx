@@ -212,7 +212,6 @@ const actions = {
   deletePost,
   sharePost
 };
-// add to actions dislikePost
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 

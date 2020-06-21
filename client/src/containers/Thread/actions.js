@@ -133,7 +133,6 @@ export const editPost = post => async dispatch => {
 
 export const sharePost = async (email, link) => {
   const response = await postService.sharePost({ email, link });
-  // console.log(response);
 }
 
 export const toggleExpandedPost = postId => async dispatch => {
@@ -146,7 +145,6 @@ export const toggleExpandedEditPost = postId => async dispatch => {
   dispatch(setExpandedEditPostAction(post));
 }
 
-// for comment editing toggle button ?
 export const toggleExpandedEditComment = commentId => async dispatch => {
   const comment = commentId ? await commentService.getComment(commentId) : undefined;
   dispatch(setExpandedEditCommentAction(comment));
@@ -292,7 +290,6 @@ export const deleteComment = comment => async (dispatch, getRootState) => {
   }
 }
 
-// for comment editing action ?
 export const editComment = comment => async (dispatch, getRootState) => {
   const { id } = await commentService.editComment(comment);
   const updatedComment = await commentService.getComment(id);

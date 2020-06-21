@@ -7,7 +7,6 @@ import {
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 import threadReducer from './containers/Thread/reducer';
 import profileReducer from './containers/Profile/reducer';
@@ -22,8 +21,7 @@ const middlewares = [
 ];
 
 const composedEnhancers = compose(
-  applyMiddleware(...middlewares),
-  composeWithDevTools() // connected redux devtools
+  applyMiddleware(...middlewares)
 );
 
 const reducers = {
